@@ -23,47 +23,63 @@ import {
 } from '@mui/material';
 import './App.css';
 import MagicRings from './components/MagicRings';
+import certificates from './data/certificates';
 
 const projects = [
   {
     id: '01',
-    title: 'Astra Finance',
-    category: 'Product Design',
-    summary: 'A calm, data-rich wealth platform that turns complex portfolios into clear next steps.',
-    detail: 'I designed the end-to-end product experience, from account linking to portfolio forecasting. The modular system reduced decision friction and made dense financial data feel approachable on every screen.',
-    tags: ['UX Strategy', 'Design System', 'Fintech'],
+    title: 'eCommerce Marketplace',
+    category: 'Full-stack',
+    summary: 'A production-oriented marketplace with product workflows, payments, media uploads, caching, and real-time capabilities.',
+    detail: 'A full-stack marketplace built with a React and Redux frontend plus a modular Express API. The backend includes MongoDB, Redis, JWT authentication, Stripe payments, Cloudinary uploads, Socket.IO, Swagger documentation, validation, rate limiting, and security middleware.',
+    tags: ['React', 'Express', 'MongoDB', 'Redis', 'Stripe'],
     accent: '#38bdf8',
-    symbol: 'A',
+    symbol: 'E',
+    githubUrl: 'https://github.com/sadeepaghost/eCommerce-marketplace',
   },
   {
     id: '02',
-    title: 'Nocturne Studio',
-    category: 'Creative Development',
-    summary: 'An immersive digital home for a sound studio, built around rhythm, motion, and atmosphere.',
-    detail: 'A fast editorial site with art-directed transitions and a lightweight audio sampler. Motion responds to user intent while reduced-motion preferences remain fully supported.',
-    tags: ['React', 'Motion', 'Web Audio'],
+    title: 'IC Marketplace',
+    category: 'Laravel',
+    summary: 'An AI-assisted marketplace for searching, comparing, and sourcing integrated circuits and electronic components.',
+    detail: 'A TALL-stack marketplace with real-time component search, inventory and technical specifications, availability and pricing details, sourcing requests, and AI-assisted compatibility suggestions.',
+    tags: ['Laravel', 'Livewire', 'PHP', 'Tailwind CSS'],
     accent: '#2563eb',
-    symbol: 'N',
+    symbol: 'I',
+    githubUrl: 'https://github.com/sadeepaghost/IC-Marketplace-',
   },
   {
     id: '03',
-    title: 'Field Notes',
-    category: 'Front-end',
-    summary: 'A field research workspace for collecting observations and finding patterns in messy data.',
-    detail: 'I built the responsive component system and accessible interaction model. Offline-first capture and clear information hierarchy let research teams stay focused in the field.',
-    tags: ['TypeScript', 'Accessibility', 'PWA'],
+    title: 'Real-Time Chat',
+    category: 'Real-time',
+    summary: 'A full-stack chat application with authenticated sessions and real-time messaging through WebSockets.',
+    detail: 'A separate React and Vite client with Zustand state management, backed by an Express server using Socket.IO and JWT authentication. The repository separates routes, middleware, socket handlers, client pages, components, hooks, and stores.',
+    tags: ['React', 'Node.js', 'Socket.IO', 'JWT', 'Zustand'],
     accent: '#60a5fa',
-    symbol: 'F',
+    symbol: 'C',
+    githubUrl: 'https://github.com/sadeepaghost/chat-application',
   },
   {
     id: '04',
-    title: 'Orbit Archive',
-    category: 'Product Design',
-    summary: 'A visual knowledge library that connects ideas without turning organization into a chore.',
-    detail: 'Research, prototyping, and interface design for a spatial archive. The final model balances serendipitous discovery with predictable search and keyboard-first navigation.',
-    tags: ['Research', 'Prototyping', 'SaaS'],
+    title: 'Smart Study Buddy',
+    category: 'TypeScript',
+    summary: 'A component-driven study companion using Supabase, typed forms, query caching, dashboards, and tests.',
+    detail: 'A React and TypeScript application built with Vite, Supabase, TanStack Query, React Hook Form, Zod, Tailwind CSS, Radix UI components, charts, and Vitest. The project demonstrates a broad modern frontend architecture with hosted data integration.',
+    tags: ['TypeScript', 'Supabase', 'React Query', 'Tailwind CSS'],
     accent: '#0ea5e9',
-    symbol: 'O',
+    symbol: 'S',
+    githubUrl: 'https://github.com/sadeepaghost/smart-study-buddy',
+  },
+  {
+    id: '05',
+    title: 'Habit Tracker',
+    category: 'PHP',
+    summary: 'A server-rendered habit replacement system with accounts, progress statistics, and focused activity areas.',
+    detail: 'A compact PHP and MySQL application with registration and login, a user dashboard, stored progress data, statistics, and separate study, reading, and music activity workflows.',
+    tags: ['PHP', 'MySQL', 'Authentication', 'CSS'],
+    accent: '#0284c7',
+    symbol: 'H',
+    githubUrl: 'https://github.com/sadeepaghost/habit_tracker',
   },
 ];
 
@@ -95,7 +111,7 @@ const techStack = [
   },
 ];
 
-const navItems = ['About', 'Work', 'Experience', 'Contact'];
+const navItems = ['About', 'Work', 'Experience', 'Certificates', 'Contact'];
 
 const theme = createTheme({
   palette: {
@@ -253,7 +269,7 @@ function App() {
                       <Typography variant="h4">{project.title}</Typography>
                       <Typography color="text.secondary">{project.summary}</Typography>
                       <Stack direction="row" gap={1} sx={{ flexWrap: 'wrap' }}>{project.tags.map((tag) => <Chip key={tag} size="small" label={tag} variant="outlined" />)}</Stack>
-                      <Button color="primary" className="case-link">View case study ↗</Button>
+                      <Button color="primary" className="case-link">View project ↗</Button>
                     </Box>
                   </Box>
                 ))}
@@ -280,6 +296,38 @@ function App() {
                 ))}
               </Box>
             </Box>
+
+            <Box component="section" id="certificates" className="section-block certificates-section">
+              <SectionLabel>Certificates & credentials</SectionLabel>
+              <Stack direction={{ xs: 'column', md: 'row' }} gap={3} sx={{ justifyContent: 'space-between', alignItems: { md: 'end' } }} className="certificate-heading">
+                <Typography variant="h2">Learning backed<br />by real credentials.</Typography>
+                <Typography className="certificate-intro">Verified course completion in development, DevOps, cloud, and AI fundamentals.</Typography>
+              </Stack>
+              <Box className="certificate-bar">
+                {certificates.map((certificate, index) => (
+                  <Box component="article" className="certificate-card" key={certificate.credentialId}>
+                    <Stack direction="row" className="certificate-topline">
+                      <Typography variant="overline">{String(index + 1).padStart(2, '0')}</Typography>
+                      <Chip label={certificate.type} size="small" variant="outlined" />
+                    </Stack>
+                    <Box>
+                      <Typography className="certificate-issuer">{certificate.issuer} · {certificate.date}</Typography>
+                      <Typography variant="h5">{certificate.title}</Typography>
+                    </Box>
+                    <Typography className="credential-id">ID: {certificate.credentialId}</Typography>
+                    <Stack direction="row" gap={1} sx={{ flexWrap: 'wrap' }}>
+                      {certificate.skills.map((skill) => <Chip key={skill} label={skill} size="small" />)}
+                      <Chip label={certificate.duration} size="small" />
+                    </Stack>
+                    <Stack direction="row" spacing={1.5} className="certificate-actions">
+                      <Button component="a" href={certificate.credentialUrl} target="_blank" rel="noopener noreferrer">Verify ↗</Button>
+                      <Button component="a" href={certificate.pdfUrl} target="_blank" rel="noopener noreferrer" color="inherit">View PDF</Button>
+                    </Stack>
+                  </Box>
+                ))}
+              </Box>
+              <Typography className="swipe-note">Scroll horizontally to view all credentials →</Typography>
+            </Box>
           </Container>
 
           <Box component="section" id="contact" className="contact-section">
@@ -304,7 +352,7 @@ function App() {
         </Box>
 
         <Dialog open={Boolean(selectedProject)} onClose={() => setSelectedProject(null)} maxWidth="sm" fullWidth PaperProps={{ className: 'case-dialog' }}>
-          {selectedProject && <><DialogTitle><Typography variant="overline" color="primary">{selectedProject.category}</Typography><Typography variant="h3">{selectedProject.title}</Typography></DialogTitle><DialogContent><Typography color="text.secondary">{selectedProject.detail}</Typography><Stack direction="row" gap={1} mt={3} sx={{ flexWrap: 'wrap' }}>{selectedProject.tags.map((tag) => <Chip key={tag} label={tag} variant="outlined" />)}</Stack></DialogContent><DialogActions><Button onClick={() => setSelectedProject(null)}>Close</Button><Button variant="contained" href={`mailto:hello@sadeepa.dev?subject=${encodeURIComponent(`Tell me more about ${selectedProject.title}`)}`}>Ask about this work</Button></DialogActions></>}
+          {selectedProject && <><DialogTitle><Typography variant="overline" color="primary">{selectedProject.category}</Typography><Typography variant="h3">{selectedProject.title}</Typography></DialogTitle><DialogContent><Typography color="text.secondary">{selectedProject.detail}</Typography><Stack direction="row" gap={1} mt={3} sx={{ flexWrap: 'wrap' }}>{selectedProject.tags.map((tag) => <Chip key={tag} label={tag} variant="outlined" />)}</Stack></DialogContent><DialogActions><Button onClick={() => setSelectedProject(null)}>Close</Button><Button component="a" variant="contained" href={selectedProject.githubUrl} target="_blank" rel="noopener noreferrer">View GitHub ↗</Button></DialogActions></>}
         </Dialog>
       </Box>
     </ThemeProvider>
