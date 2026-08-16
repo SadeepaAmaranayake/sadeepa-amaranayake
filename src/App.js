@@ -32,7 +32,7 @@ const projects = [
     summary: 'A calm, data-rich wealth platform that turns complex portfolios into clear next steps.',
     detail: 'I designed the end-to-end product experience, from account linking to portfolio forecasting. The modular system reduced decision friction and made dense financial data feel approachable on every screen.',
     tags: ['UX Strategy', 'Design System', 'Fintech'],
-    accent: '#c084fc',
+    accent: '#38bdf8',
     symbol: 'A',
   },
   {
@@ -42,7 +42,7 @@ const projects = [
     summary: 'An immersive digital home for a sound studio, built around rhythm, motion, and atmosphere.',
     detail: 'A fast editorial site with art-directed transitions and a lightweight audio sampler. Motion responds to user intent while reduced-motion preferences remain fully supported.',
     tags: ['React', 'Motion', 'Web Audio'],
-    accent: '#818cf8',
+    accent: '#2563eb',
     symbol: 'N',
   },
   {
@@ -52,7 +52,7 @@ const projects = [
     summary: 'A field research workspace for collecting observations and finding patterns in messy data.',
     detail: 'I built the responsive component system and accessible interaction model. Offline-first capture and clear information hierarchy let research teams stay focused in the field.',
     tags: ['TypeScript', 'Accessibility', 'PWA'],
-    accent: '#ff8fa3',
+    accent: '#60a5fa',
     symbol: 'F',
   },
   {
@@ -62,15 +62,37 @@ const projects = [
     summary: 'A visual knowledge library that connects ideas without turning organization into a chore.',
     detail: 'Research, prototyping, and interface design for a spatial archive. The final model balances serendipitous discovery with predictable search and keyboard-first navigation.',
     tags: ['Research', 'Prototyping', 'SaaS'],
-    accent: '#a9b8ff',
+    accent: '#0ea5e9',
     symbol: 'O',
   },
 ];
 
-const experience = [
-  ['2024 — NOW', 'Independent designer & developer', 'Building focused digital products for early-stage teams.'],
-  ['2021 — 2024', 'Senior Product Designer · Northstar', 'Led product design and helped grow a shared design system.'],
-  ['2018 — 2021', 'Creative Developer · Studio Coda', 'Made expressive, performant web experiences for global brands.'],
+const techStack = [
+  {
+    number: '01',
+    category: 'Frontend',
+    technologies: ['React.js', 'JavaScript', 'TypeScript', 'HTML', 'CSS', 'Tailwind CSS', 'Bootstrap', 'Vite'],
+  },
+  {
+    number: '02',
+    category: 'Backend',
+    technologies: ['Node.js', 'Express.js', 'REST APIs', 'JWT', 'Socket.IO'],
+  },
+  {
+    number: '03',
+    category: 'Database',
+    technologies: ['MongoDB', 'Mongoose', 'MySQL', 'PostgreSQL', 'Redis'],
+  },
+  {
+    number: '04',
+    category: 'DevOps & Tools',
+    technologies: ['Git', 'GitHub', 'Docker', 'Docker Compose', 'GitHub Actions', 'Nginx', 'Postman'],
+  },
+  {
+    number: '05',
+    category: 'Cloud & Deployment',
+    technologies: ['MongoDB Atlas', 'Netlify', 'AWS'],
+  },
 ];
 
 const navItems = ['About', 'Work', 'Experience', 'Contact'];
@@ -78,16 +100,16 @@ const navItems = ['About', 'Work', 'Experience', 'Contact'];
 const theme = createTheme({
   palette: {
     mode: 'dark',
-    primary: { main: '#A855F7', contrastText: '#ffffff' },
-    secondary: { main: '#818CF8' },
-    background: { default: '#070711', paper: '#111126' },
-    text: { primary: '#F7F5FF', secondary: '#B7B5CC' },
+    primary: { main: '#168BFF', contrastText: '#ffffff' },
+    secondary: { main: '#38BDF8' },
+    background: { default: '#030509', paper: '#0A111C' },
+    text: { primary: '#F5F9FF', secondary: '#9DADBF' },
   },
   typography: {
-    fontFamily: '"DM Sans", sans-serif',
-    h1: { fontFamily: '"Cormorant Garamond", serif', fontWeight: 600 },
-    h2: { fontFamily: '"Cormorant Garamond", serif', fontWeight: 600 },
-    h3: { fontFamily: '"Cormorant Garamond", serif', fontWeight: 600 },
+    fontFamily: '"Space Grotesk", sans-serif',
+    h1: { fontFamily: '"Syne", sans-serif', fontWeight: 700 },
+    h2: { fontFamily: '"Syne", sans-serif', fontWeight: 700 },
+    h3: { fontFamily: '"Syne", sans-serif', fontWeight: 700 },
     button: { fontWeight: 700, letterSpacing: '0.08em' },
   },
   shape: { borderRadius: 18 },
@@ -137,8 +159,8 @@ function App() {
       <Box className="site-shell">
         <Box className="magic-rings-layer">
           <MagicRings
-            color="#A855F7"
-            colorTwo="#6366F1"
+            color="#168BFF"
+            colorTwo="#38BDF8"
             ringCount={6}
             speed={1}
             attenuation={10}
@@ -239,11 +261,22 @@ function App() {
             </Box>
 
             <Box component="section" id="experience" className="section-block experience-section">
-              <SectionLabel>Experience</SectionLabel>
-              <Typography variant="h2">A few stops along<br />the way.</Typography>
-              <Box className="timeline">
-                {experience.map(([date, role, description]) => (
-                  <Box className="timeline-row" key={date}><Typography variant="overline">{date}</Typography><Box><Typography variant="h5">{role}</Typography><Typography color="text.secondary">{description}</Typography></Box><span>✦</span></Box>
+              <SectionLabel>Tech stack</SectionLabel>
+              <Typography variant="h2">The tools behind<br />what I build.</Typography>
+              <Typography className="stack-intro">A practical full-stack toolkit for building, shipping, and maintaining modern web applications.</Typography>
+              <Box className="tech-stack-grid">
+                {techStack.map((group) => (
+                  <Box component="article" className="stack-card" key={group.category}>
+                    <Stack direction="row" className="stack-card-heading">
+                      <Typography variant="overline">{group.number}</Typography>
+                      <Typography variant="h5">{group.category}</Typography>
+                    </Stack>
+                    <Stack direction="row" gap={1} sx={{ flexWrap: 'wrap' }}>
+                      {group.technologies.map((technology) => (
+                        <Chip key={technology} label={technology} variant="outlined" />
+                      ))}
+                    </Stack>
+                  </Box>
                 ))}
               </Box>
             </Box>
