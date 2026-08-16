@@ -200,7 +200,7 @@ function App() {
         </Box>
 
         <AppBar position="fixed" elevation={0} className="nav-bar">
-          <Container maxWidth="lg">
+          <Container maxWidth="xl" className="wide-container">
             <Toolbar disableGutters>
               <Link href="#top" underline="none" color="inherit" className="wordmark" aria-label="Go to top">S<span>✦</span></Link>
               <Stack direction="row" spacing={4} className="desktop-nav">
@@ -218,7 +218,7 @@ function App() {
         </Drawer>
 
         <Box component="main" id="top">
-          <Container maxWidth="lg">
+          <Container maxWidth="xl" className="wide-container">
             <Box component="section" className="hero">
               <Typography className="eyebrow">DESIGNER · DEVELOPER · PROBLEM SOLVER</Typography>
               <Typography variant="h1">I create digital things<br />that feel <em>human.</em></Typography>
