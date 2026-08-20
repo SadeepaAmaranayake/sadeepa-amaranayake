@@ -24,6 +24,7 @@ import {
 import './App.css';
 import MagicRings from './components/MagicRings';
 import certificates from './data/certificates';
+import Contact from "./components/contact";
 
 const projects = [
   {
@@ -148,7 +149,7 @@ function App() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [filter, setFilter] = useState('All');
   const [selectedProject, setSelectedProject] = useState(null);
-  const [sent, setSent] = useState(false);
+  const [result, setResult] = useState("");
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const categories = ['All', ...new Set(projects.map((project) => project.category))];
   const visibleProjects = useMemo(
@@ -161,13 +162,50 @@ function App() {
     setDrawerOpen(false);
   };
 
-  const submitContact = (event) => {
-    event.preventDefault();
-    const subject = encodeURIComponent(`Portfolio enquiry from ${form.name}`);
-    const body = encodeURIComponent(`${form.message}\n\nFrom: ${form.name}\nEmail: ${form.email}`);
-    setSent(true);
-    window.location.href = `mailto:hello@sadeepa.dev?subject=${subject}&body=${body}`;
-  };
+  const submitContact = async (event) => {
+  event.preventDefault();
+
+  setResult("Sending...");
+
+  const formData = new FormData();
+
+  formData.append(
+    "access_key",
+    process.env.REACT_APP_WEB3FORMS_ACCESS_KEY
+  );
+
+  formData.append("name", form.name);
+  formData.append("email", form.email);
+  formData.append("message", form.message);
+
+  try {
+    const response = await fetch(
+      "https://api.web3forms.com/submit",
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+
+    const data = await response.json();
+
+    if (data.success) {
+      setResult("Message sent successfully!");
+
+      setForm({
+        name: "",
+        email: "",
+        message: "",
+      });
+    } else {
+      console.log("Web3Forms error:", data);
+      setResult(data.message || "Something went wrong. Please try again.");
+    }
+  } catch (error) {
+    console.error(error);
+    setResult("Unable to send message. Please try again.");
+  }
+};
 
   return (
     <ThemeProvider theme={theme}>
@@ -340,7 +378,7 @@ function App() {
                 <TextField required type="email" label="Email address" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
                 <TextField required multiline minRows={4} label="A little about your project" value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} />
                 <Button type="submit" variant="contained" size="large">Send a message ↗</Button>
-                {sent && <Typography role="status" className="form-note">Your email app should now be open with the message ready to send.</Typography>}
+                {result && <Typography role="status" className="form-note">{result}</Typography>}
               </Box>
               <Divider />
               <Box component="footer" className="footer">
@@ -358,5 +396,7 @@ function App() {
     </ThemeProvider>
   );
 }
+
+
 
 export default App;
