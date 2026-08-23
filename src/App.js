@@ -24,7 +24,9 @@ import {
 import "./App.css";
 import MagicRings from "./components/MagicRings";
 import certificates from "./data/certificates";
-import Contact from "./components/contact";
+import LightBulb from "./components/LightBulb";
+
+
 
 const projects = [
   {
