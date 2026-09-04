@@ -50,7 +50,7 @@ const projects = [
     detail:
       "A TALL-stack marketplace with real-time component search, inventory and technical specifications, availability and pricing details, sourcing requests, and AI-assisted compatibility suggestions.",
     tags: ["Laravel", "Livewire", "PHP", "Tailwind CSS"],
-    accent: "#ebb325",
+    accent: "#ce1946",
     symbol: "I",
     githubUrl: "https://github.com/SadeepaAmaranayake/IC-Marketplace",
   },
@@ -102,7 +102,7 @@ const projects = [
     detail:
      "Built with React Native and Expo, Cashflow provides secure user authentication, categorized transaction management, paginated history, dashboard summaries, monthly reports, expense charts, and notification reminders. An Express and MongoDB backend stores user and transaction data through a protected REST API.",
     tags: ["React Native", "Expo", "Express.js", "MongoDB"],
-    accent: "#96c702",
+    accent: "#fafbf6",
     symbol: "C",
     githubUrl: "https://github.com/SadeepaAmaranayake/cashflow",
   },
