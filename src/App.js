@@ -30,6 +30,7 @@ import certificates from "./data/certificates";
 const projects = [
   {
     id: "01",
+    title: "eCommerce Marketplace",
     category: "Full-stack",
     summary:
       "A production-oriented marketplace with product workflows, payments, media uploads, caching, and real-time capabilities.",
@@ -42,6 +43,7 @@ const projects = [
   },
   {
     id: "02",
+    title: "IC Marketplace",
     category: "Laravel",
     summary:
       "An AI-assisted marketplace for searching, comparing, and sourcing integrated circuits and electronic components.",
@@ -54,6 +56,7 @@ const projects = [
   },
   {
     id: "03",
+    title: "Real-Time Chat",
     category: "Real-time",
     summary:
       "A full-stack chat application with authenticated sessions and real-time messaging through WebSockets.",
@@ -66,6 +69,7 @@ const projects = [
   },
   {
     id: "04",
+    title: "Smart Study Buddy",
     category: "TypeScript",
     summary:
       "A component-driven study companion using Supabase, typed forms, query caching, dashboards, and tests.",
@@ -78,6 +82,7 @@ const projects = [
   },
   {
     id: "05",
+    title: "Habit Tracker",
     category: "PHP",
     summary:
       "A server-rendered habit replacement system with accounts, progress statistics, and focused activity areas.",
@@ -90,6 +95,7 @@ const projects = [
   },
   {
     id: "06",
+    title: "Cashflow",
     category: "MOBILE",
     summary:
       "A mobile personal finance application for tracking income, expenses, balances, and monthly spending.",
