@@ -16,6 +16,7 @@
     "react-dom": "^19.2.8",
     "react-router-dom": "^7.18.2",
     "react-scripts": "5.0.1",
+    "three": "^0.181.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -42,6 +43,4 @@
       "last 1 safari version"
     ]
   }
-
-  
 }

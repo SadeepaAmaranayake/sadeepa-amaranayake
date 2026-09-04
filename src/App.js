@@ -23,6 +23,7 @@ import {
 } from "@mui/material";
 import "./App.css";
 import MagicRings from "./components/MagicRings";
+import { ShaderAnimation } from "./components/ui/ShaderAnimation";
 import certificates from "./data/certificates";
 
 
@@ -38,7 +39,7 @@ const projects = [
     tags: ["React", "Express", "MongoDB", "Redis", "Stripe"],
     accent: "#384bf8",
     symbol: "E",
-    githubUrl: "https://github.com/sadeepaghost/eCommerce-marketplace",
+    githubUrl: "https://github.com/SadeepaAmaranayake/eCommerce-marketplace",
   },
   {
     id: "02",
@@ -51,7 +52,7 @@ const projects = [
     tags: ["Laravel", "Livewire", "PHP", "Tailwind CSS"],
     accent: "#ebb325",
     symbol: "I",
-    githubUrl: "https://github.com/sadeepaghost/IC-Marketplace-",
+    githubUrl: "https://github.com/SadeepaAmaranayake/IC-Marketplace",
   },
   {
     id: "03",
@@ -64,7 +65,7 @@ const projects = [
     tags: ["React", "Node.js", "Socket.IO", "JWT", "Zustand"],
     accent: "#60fa9e",
     symbol: "C",
-    githubUrl: "https://github.com/sadeepaghost/chat-application",
+    githubUrl: "https://github.com/SadeepaAmaranayake/chat-application",
   },
   {
     id: "04",
@@ -77,7 +78,7 @@ const projects = [
     tags: ["TypeScript", "Supabase", "React Query", "Tailwind CSS"],
     accent: "#e90e0e",
     symbol: "S",
-    githubUrl: "https://github.com/sadeepaghost/smart-study-buddy",
+    githubUrl: "https://github.com/SadeepaAmaranayake/smart-study-buddy",
   },
   {
     id: "05",
@@ -90,7 +91,20 @@ const projects = [
     tags: ["PHP", "MySQL", "Authentication", "CSS"],
     accent: "#c70296",
     symbol: "H",
-    githubUrl: "https://github.com/sadeepaghost/habit_tracker",
+    githubUrl: "https://github.com/SadeepaAmaranayake/habit_tracker",
+  },
+  {
+    id: "06",
+    title: "Cashflow",
+    category: "MOBILE",
+    summary:
+      "A mobile personal finance application for tracking income, expenses, balances, and monthly spending.",
+    detail:
+     "Built with React Native and Expo, Cashflow provides secure user authentication, categorized transaction management, paginated history, dashboard summaries, monthly reports, expense charts, and notification reminders. An Express and MongoDB backend stores user and transaction data through a protected REST API.",
+    tags: ["React Native", "Expo", "Express.js", "MongoDB"],
+    accent: "#96c702",
+    symbol: "C",
+    githubUrl: "https://github.com/SadeepaAmaranayake/cashflow",
   },
 ];
 
@@ -281,7 +295,7 @@ function App() {
                 className="wordmark"
                 aria-label="Go to top"
               >
-                S<span>✦</span>
+               <span>Sadeepa Amaranayake</span>
               </Link>
               <Stack direction="row" spacing={4} className="desktop-nav">
                 {navItems.map((item) => (
@@ -341,9 +355,9 @@ function App() {
                 DESIGNER · DEVELOPER · PROBLEM SOLVER
               </Typography>
               <Typography variant="h1">
-                I create digital things
+                I Create Digital Things
                 <br />
-                that feel <em>human.</em>
+                That Feel <em>Human.</em>
               </Typography>
               <Typography className="hero-copy">
                 I’m Sadeepa, a product designer and creative developer crafting
@@ -359,7 +373,7 @@ function App() {
                   size="large"
                   onClick={() => scrollTo("Work")}
                 >
-                  Explore my work <span>↘</span>
+                  Explore my work
                 </Button>
                 <Button
                   variant="text"
@@ -468,12 +482,12 @@ function App() {
                     }
                   >
                     <Box
-                      className="project-art"
+                      className="project-art project-art--shader"
                       sx={{ "--accent": project.accent }}
                     >
+                      <ShaderAnimation accent={project.accent} speed={0.25} />
                       <span className="project-number">{project.id}</span>
-                      <span className="project-symbol">{project.symbol}</span>
-                      <span className="planet-ring" />
+                      <span className="project-art-title">{project.title}</span>
                     </Box>
                     <Box className="project-body">
                       <Typography variant="overline">
