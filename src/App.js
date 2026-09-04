@@ -686,7 +686,7 @@ function App() {
                   }
                 />
                 <Button type="submit" variant="contained" size="large">
-                  Send a message ↗
+                  Send a message
                 </Button>
                 {result && (
                   <Typography role="status" className="form-note">
