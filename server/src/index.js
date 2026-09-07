@@ -5,7 +5,7 @@ import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5050;
 
 app.use(helmet());
 app.use(
@@ -25,6 +25,10 @@ app.get("/api/health", (request, response) => {
   response.json({ status: "ok" });
 });
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
+});
+
+server.on("error", (error) => {
+  console.error("Server failed to start:", error.message);
 });
