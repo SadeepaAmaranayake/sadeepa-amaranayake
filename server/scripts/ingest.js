@@ -2,22 +2,21 @@ import "dotenv/config";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import OpenAI from "openai";
+import { GoogleGenAI } from "@google/genai";
 
 const currentFile = fileURLToPath(import.meta.url);
 const currentDirectory = path.dirname(currentFile);
 const knowledgeDirectory = path.join(currentDirectory, "..", "knowledge");
 
-if (
-  !process.env.OPENAI_API_KEY ||
-  process.env.OPENAI_API_KEY.includes("your_")
-) {
-  throw new Error("Add a valid OPENAI_API_KEY to server/.env");
+const apiKey = process.env.GEMINI_API_KEY;
+
+if (!apiKey || apiKey.includes("your_")) {
+  throw new Error("Add a valid GEMINI_API_KEY to server/.env");
 }
 
-if (process.env.OPENAI_VECTOR_STORE_ID?.trim()) {
+if (process.env.GEMINI_FILE_SEARCH_STORE?.trim()) {
   throw new Error(
-    "OPENAI_VECTOR_STORE_ID already exists. Do not create duplicate vector stores.",
+    "GEMINI_FILE_SEARCH_STORE already exists. Do not create a duplicate store.",
   );
 }
 
@@ -29,48 +28,51 @@ if (filenames.length === 0) {
   throw new Error("No Markdown knowledge files were found.");
 }
 
-for (const filename of filenames) {
-  const filePath = path.join(knowledgeDirectory, filename);
-  const fileSize = fs.statSync(filePath).size;
-
-  if (fileSize === 0) {
-    throw new Error(`${filename} is empty.`);
-  }
-}
-
-const openai = new OpenAI();
+const ai = new GoogleGenAI({ apiKey });
 
 async function ingestKnowledge() {
   console.log(`Found ${filenames.length} knowledge files.`);
 
-  const vectorStore = await openai.vectorStores.create({
-    name: "Sadeepa Portfolio Knowledge",
+  const store = await ai.fileSearchStores.create({
+    config: {
+      displayName: "Sadeepa Portfolio Knowledge",
+      embeddingModel: "models/gemini-embedding-001",
+    },
   });
 
-  console.log(`Created vector store: ${vectorStore.id}`);
+  console.log(`Created Gemini File Search store: ${store.name}`);
 
-  const files = filenames.map((filename) =>
-    fs.createReadStream(path.join(knowledgeDirectory, filename)),
-  );
+  for (const filename of filenames) {
+    const filePath = path.join(knowledgeDirectory, filename);
 
-  const batch = await openai.vectorStores.fileBatches.uploadAndPoll(
-    vectorStore.id,
-    { files },
-  );
+    let operation = await ai.fileSearchStores.uploadToFileSearchStore({
+      file: filePath,
+      fileSearchStoreName: store.name,
+      config: {
+        displayName: filename,
+        mimeType: "text/markdown",
+      },
+    });
 
-  if (batch.status !== "completed" || batch.file_counts.failed > 0) {
-    throw new Error(
-      `Ingestion failed. Status: ${batch.status}, failed files: ${batch.file_counts.failed}`,
-    );
+    while (!operation.done) {
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+      operation = await ai.operations.get({ operation });
+    }
+
+    if (operation.error) {
+      throw new Error(
+        `Failed to upload ${filename}: ${JSON.stringify(operation.error)}`,
+      );
+    }
+
+    console.log(`Uploaded: ${filename}`);
   }
 
-  console.log(`Uploaded ${batch.file_counts.completed} files.`);
-  console.log("");
-  console.log("Add this value to server/.env:");
-  console.log(`OPENAI_VECTOR_STORE_ID=${vectorStore.id}`);
+  console.log("\nAdd this value to server/.env:");
+  console.log(`GEMINI_FILE_SEARCH_STORE=${store.name}`);
 }
 
 ingestKnowledge().catch((error) => {
-  console.error("Ingestion failed:", error.message);
+  console.error("Gemini ingestion failed:", error.message);
   process.exitCode = 1;
 });

@@ -25,7 +25,7 @@ import "./App.css";
 import MagicRings from "./components/MagicRings";
 import { ShaderAnimation } from "./components/ui/ShaderAnimation";
 import certificates from "./data/certificates";
-
+import PortfolioChat from "./components/PortfolioChat";
 
 const projects = [
   {
@@ -751,6 +751,7 @@ function App() {
             </>
           )}
         </Dialog>
+        <PortfolioChat/>
       </Box>
     </ThemeProvider>
   );

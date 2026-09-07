@@ -3,12 +3,16 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
-import OpenAI from "openai";
+import { GoogleGenAI } from "@google/genai";
 
 const app = express();
 const port = process.env.PORT || 5050;
-const vectorStoreId = process.env.OPENAI_VECTOR_STORE_ID;
-const openai = new OpenAI();
+
+const apiKey = process.env.GEMINI_API_KEY;
+const fileSearchStore = process.env.GEMINI_FILE_SEARCH_STORE;
+const model = process.env.GEMINI_MODEL || "gemini-3.6-flash";
+
+const ai = new GoogleGenAI({ apiKey });
 
 app.use(helmet());
 
@@ -46,16 +50,16 @@ app.post("/api/chat", async (request, response) => {
     });
   }
 
-  if (!vectorStoreId) {
+  if (!apiKey || !fileSearchStore) {
     return response.status(500).json({
-      error: "The knowledge base is not configured.",
+      error: "The Gemini knowledge base is not configured.",
     });
   }
 
   try {
-    const result = await openai.responses.create({
-      model: process.env.OPENAI_MODEL || "gpt-5",
-      instructions: `
+    const result = await ai.interactions.create({
+      model,
+      system_instruction: `
 You are Sadeepa Amaranayake's portfolio assistant.
 
 Answer using only information retrieved from the portfolio knowledge base.
@@ -72,31 +76,36 @@ Keep answers concise and factual.
       tools: [
         {
           type: "file_search",
-          vector_store_ids: [vectorStoreId],
-          max_num_results: 5,
+          file_search_store_names: [fileSearchStore],
         },
       ],
-      include: ["file_search_call.results"],
-      max_output_tokens: 500,
     });
 
-    const sources = result.output
-      .filter((item) => item.type === "message")
-      .flatMap((item) => item.content)
-      .filter((content) => content.type === "output_text")
+    const sources = (result.steps || [])
+      .filter((step) => step.type === "model_output")
+      .flatMap((step) => step.content || [])
+      .filter((content) => content.type === "text")
       .flatMap((content) => content.annotations || [])
       .filter((annotation) => annotation.type === "file_citation")
-      .map((annotation) => annotation.filename);
+      .map((annotation) => annotation.file_name)
+      .filter(Boolean);
 
     return response.json({
-      answer: result.output_text,
+      answer:
+        result.output_text ||
+        "The assistant could not find an answer in the knowledge base.",
       sources: [...new Set(sources)],
     });
   } catch (error) {
-    console.error("Chat request failed:", error.status, error.message);
+    console.error("Gemini chat request failed:", error.status, error.message);
 
-    return response.status(500).json({
-      error: "The assistant could not generate a response.",
+    const status = error.status === 429 ? 429 : 500;
+
+    return response.status(status).json({
+      error:
+        status === 429
+          ? "The assistant has reached its temporary usage limit."
+          : "The assistant could not generate a response.",
     });
   }
 });
